@@ -9,7 +9,7 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: ubuntu-22.04
+    runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
       - name: Install tox

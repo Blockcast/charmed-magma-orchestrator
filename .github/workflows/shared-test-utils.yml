@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint-report:
-    runs-on: ubuntu-22.04
+    runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
       - name: Install tox
@@ -16,7 +16,7 @@ jobs:
         run: cd shared_test_utils && tox -e lint
 
   static-analysis:
-    runs-on: ubuntu-22.04
+    runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
       - name: Install tox
