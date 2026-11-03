@@ -9,6 +9,7 @@ on:
 
 jobs:
   integration-tests:
+    timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: self-hosted
     steps:

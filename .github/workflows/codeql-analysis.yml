@@ -18,6 +18,7 @@ on:
 
 jobs:
   analyze:
+    timeout-minutes: 30
     name: CodeQL analysis
     runs-on: arc-magma
     permissions:
