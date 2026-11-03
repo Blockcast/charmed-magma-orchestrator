@@ -1,7 +1,9 @@
 name: main-branch
 
 on:
-  pull_request:
+  # Use the base-branch workflow for PR admission so runner selection is not
+  # controlled by an untrusted fork.
+  pull_request_target:
     branches:
       - main
   push:
@@ -11,9 +13,15 @@ on:
 jobs:
   orchestrator-lint-report:
     name: Lint report
-    runs-on: arc-magma
+    runs-on: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-22.04' || 'arc-magma' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
         run: |
           python3 -m venv "$RUNNER_TEMP/tox"
@@ -29,9 +37,15 @@ jobs:
 
   orchestrator-static-analysis:
     name: Static analysis
-    runs-on: arc-magma
+    runs-on: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-22.04' || 'arc-magma' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
         run: |
           python3 -m venv "$RUNNER_TEMP/tox"
@@ -47,9 +61,15 @@ jobs:
 
   orchestrator-unit-tests-with-coverage:
     name: Unit tests
-    runs-on: arc-magma
+    runs-on: ${{ github.event_name == 'pull_request_target' && github.event.pull_request.head.repo.full_name != github.repository && 'ubuntu-22.04' || 'arc-magma' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
         run: |
           python3 -m venv "$RUNNER_TEMP/tox"

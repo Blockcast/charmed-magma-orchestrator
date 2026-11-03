@@ -10,6 +10,9 @@ jobs:
     runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
         run: |
           python3 -m venv "$RUNNER_TEMP/tox"
@@ -22,6 +25,9 @@ jobs:
     runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
         run: |
           python3 -m venv "$RUNNER_TEMP/tox"
