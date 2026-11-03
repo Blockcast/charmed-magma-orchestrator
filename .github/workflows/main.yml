@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   orchestrator-lint-report:
+    timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Lint report
     runs-on: arc-magma
@@ -40,6 +41,7 @@ jobs:
           done
 
   orchestrator-static-analysis:
+    timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Static analysis
     runs-on: arc-magma
@@ -65,6 +67,7 @@ jobs:
           done
 
   orchestrator-unit-tests-with-coverage:
+    timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Unit tests
     runs-on: arc-magma

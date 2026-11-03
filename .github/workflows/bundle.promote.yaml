@@ -15,6 +15,7 @@ on:
 
 jobs:
   orc8r-bundle-charmhub-upload:
+    timeout-minutes: 60
     if: (github.ref_name == '1.6' || github.ref_name == '1.8')
     runs-on: arc-magma
     steps:

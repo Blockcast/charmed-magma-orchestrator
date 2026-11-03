@@ -9,6 +9,7 @@ on:
 
 jobs:
   lint-report:
+    timeout-minutes: 60
     runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3

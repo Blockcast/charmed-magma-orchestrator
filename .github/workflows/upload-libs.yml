@@ -12,6 +12,7 @@ on:
 
 jobs:
   libs-charmhub-upload:
+    timeout-minutes: 60
     runs-on: arc-magma
     name: Upload ${{ inputs.charm }} libs to charmhub
     steps:
