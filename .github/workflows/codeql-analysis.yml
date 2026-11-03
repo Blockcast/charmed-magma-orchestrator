@@ -19,7 +19,7 @@ on:
 jobs:
   analyze:
     name: CodeQL analysis
-    runs-on: ubuntu-latest
+    runs-on: arc-magma
     permissions:
       actions: read
       contents: read

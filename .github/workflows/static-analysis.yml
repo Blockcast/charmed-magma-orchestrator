@@ -9,10 +9,16 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: ubuntu-22.04
+    runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
       - name: Install tox
-        run: pip install tox
+        run: |
+          python3 -m venv "$RUNNER_TEMP/tox"
+          "$RUNNER_TEMP/tox/bin/pip" install tox
+          echo "$RUNNER_TEMP/tox/bin" >> "$GITHUB_PATH"
       - name: Run tests using tox
         run: cd ${{ inputs.charm_dir }} && tox -e static
