@@ -15,7 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install tox
-        run: pip install tox
+        run: |
+          python3 -m venv "$RUNNER_TEMP/tox"
+          "$RUNNER_TEMP/tox/bin/pip" install tox
+          echo "$RUNNER_TEMP/tox/bin" >> "$GITHUB_PATH"
       - name: Run tests using tox
         run: |
           set -eux
@@ -30,7 +33,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install tox
-        run: pip install tox
+        run: |
+          python3 -m venv "$RUNNER_TEMP/tox"
+          "$RUNNER_TEMP/tox/bin/pip" install tox
+          echo "$RUNNER_TEMP/tox/bin" >> "$GITHUB_PATH"
       - name: Run tests using tox
         run: |
           set -eux
@@ -45,7 +51,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install tox
-        run: pip install tox
+        run: |
+          python3 -m venv "$RUNNER_TEMP/tox"
+          "$RUNNER_TEMP/tox/bin/pip" install tox
+          echo "$RUNNER_TEMP/tox/bin" >> "$GITHUB_PATH"
       - name: Run tests using tox
         run: |
           set -eux
