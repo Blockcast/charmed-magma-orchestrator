@@ -7,6 +7,7 @@ on:
 
 jobs:
   lint-report:
+    timeout-minutes: 60
     runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +23,7 @@ jobs:
         run: cd shared_test_utils && tox -e lint
 
   static-analysis:
+    timeout-minutes: 60
     runs-on: arc-magma
     steps:
       - uses: actions/checkout@v3
