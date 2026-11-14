@@ -26,7 +26,7 @@ jobs:
 
   nms-magmalte-integration-test:
     name: Integration tests
-    uses: ./.github/workflows/integration-tests-self-hosted.yml
+    uses: ./.github/workflows/integration-tests.yml
     with:
       charm_dir: nms-magmalte-operator
 
