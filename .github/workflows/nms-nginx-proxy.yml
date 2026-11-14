@@ -39,4 +39,4 @@ jobs:
     secrets: inherit
     with:
       charm: nms-nginx-proxy-operator
-      runner-version: arc-magma
+      runner-version: ubuntu-latest
