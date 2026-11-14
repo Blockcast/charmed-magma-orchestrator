@@ -10,7 +10,7 @@ on:
 jobs:
   orc8r-bundle-charmhub-upload:
     timeout-minutes: 60
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - name: checkout code
         uses: actions/checkout@v3

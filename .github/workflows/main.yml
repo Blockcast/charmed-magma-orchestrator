@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Lint report
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -44,7 +44,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Static analysis
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -70,7 +70,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Unit tests
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -95,6 +95,6 @@ jobs:
   orchestrator-integration-test:
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Integration tests
-    uses: ./.github/workflows/integration-tests-self-hosted.yml
+    uses: ./.github/workflows/integration-tests.yml
     with:
       charm_dir: orc8r-bundle

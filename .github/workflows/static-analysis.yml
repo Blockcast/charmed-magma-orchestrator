@@ -10,7 +10,7 @@ on:
 jobs:
   static-analysis:
     timeout-minutes: 60
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v5
