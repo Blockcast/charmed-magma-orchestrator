@@ -210,7 +210,7 @@ def render_overlay_file(jinja_template_path: str, destination_file_path: str) ->
     with open(jinja_template_path, "r") as template_file:
         jinja_template = jinja2.Template(template_file.read(), autoescape=True)
     with open(destination_file_path, "wt") as output_file:
-        jinja_template.stream(domain=DOMAIN).dump(output_file)  # type: ignore[arg-type]
+        output_file.write(jinja_template.render(domain=DOMAIN).rstrip("\n"))
 
 
 class TestOrc8rBundle:
@@ -267,4 +267,4 @@ class TestOrc8rBundle:
             except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout) as e:
                 logger.error(e)
                 time.sleep(5)
-        raise TimeoutError("Could not connect to Orc8r API")
+        raise TimeoutError("Could not connect to Orc8r API")\n
