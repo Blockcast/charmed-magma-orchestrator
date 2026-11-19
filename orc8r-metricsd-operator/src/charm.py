@@ -243,14 +243,10 @@ class MagmaOrc8rMetricsdCharm(CharmBase):
         prometheus_configurer_app = prometheus_configurer_relation.app  # type: ignore[union-attr]
         prometheus_configurer_service_name = prometheus_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
             prometheus_configurer_app  # type: ignore[index]
-        ][
-            "service_name"
-        ]
+        ]["service_name"]
         prometheus_configurer_port = prometheus_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
             prometheus_configurer_app  # type: ignore[index]
-        ][
-            "port"
-        ]
+        ]["port"]
         return f"http://{prometheus_configurer_service_name}:{prometheus_configurer_port}"
 
     @property
@@ -275,14 +271,10 @@ class MagmaOrc8rMetricsdCharm(CharmBase):
         alertmanager_configurer_app = alertmanager_configurer_relation.app  # type: ignore[union-attr]  # noqa: E501
         alertmanager_configurer_service_name = alertmanager_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
             alertmanager_configurer_app  # type: ignore[index]
-        ][
-            "service_name"
-        ]
+        ]["service_name"]
         alertmanager_configurer_port = alertmanager_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
             alertmanager_configurer_app  # type: ignore[index]
-        ][
-            "port"
-        ]
+        ]["port"]
         return f"http://{alertmanager_configurer_service_name}:{alertmanager_configurer_port}"
 
     @property
