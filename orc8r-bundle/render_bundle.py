@@ -77,4 +77,4 @@ if __name__ == "__main__":
         output=arg_output,
         local=arg_local,
         channel=arg_channel,
-    )\n
+    )
