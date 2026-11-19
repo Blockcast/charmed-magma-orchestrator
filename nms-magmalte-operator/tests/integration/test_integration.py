@@ -5,7 +5,7 @@
 import logging
 from pathlib import Path
 
-import integration_test_utils as integration_utils  # type: ignore[import]
+import integration_test_utils as integration_utils  # type: ignore[import-untyped]
 import pytest
 import yaml
 

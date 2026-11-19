@@ -6,7 +6,7 @@ from unittest.mock import Mock, PropertyMock, call, patch
 
 from ops import testing
 from ops.model import ActiveStatus, BlockedStatus
-from ops.pebble import ExecError
+from ops.pebble import ExecError, Layer
 
 from charm import MagmaNmsMagmalteCharm, ServiceNotRunningError
 
@@ -483,7 +483,7 @@ class TestCharm(unittest.TestCase):
             },
         }
         self.harness.model.unit.get_container("magma-nms-magmalte").add_layer(
-            "magma-nms-magmalte", test_pebble_layer, combine=True
+            "magma-nms-magmalte", Layer(test_pebble_layer), combine=True
         )
         self.harness.container_pebble_ready(container_name=service_name)
         patch_container_restart.assert_called_once()
