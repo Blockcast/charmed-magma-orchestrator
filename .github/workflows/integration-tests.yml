@@ -6,19 +6,25 @@ on:
       charm_dir:
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      charm_dir:
+        description: Charm directory to test
+        required: true
+        type: string
 
 jobs:
   integration-tests:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set Environment Variables
         uses: tw3lveparsecs/github-actions-setvars@latest
         with:
-          varFilePath: ./.github/variables/dependencies_versions.env
+          envFilePath: ./.github/variables/dependencies_versions.env
       - name: Setup operator environment
         uses: charmed-kubernetes/actions-operator@main
         with:
@@ -26,17 +32,23 @@ jobs:
           channel: ${{ env.MICROK8S_VERSION }}
           juju-channel: ${{ env.JUJU_VERSION }}
           juju-crashdump-channel: latest/stable
+      - name: Configure hosted MicroK8s credentials
+        run: |
+          mkdir -p "$HOME/.kube"
+          sudo microk8s config > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+          echo "KUBECONFIG=$HOME/.kube/config" >> "$GITHUB_ENV"
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
       - name: Archive charmcraft logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: charmcraft-logs
           path: /home/runner/.local/state/charmcraft/log/*.log
       - name: Archive juju crashdump
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: juju-crashdump
           path: ${{ inputs.charm_dir }}/juju-crashdump-*.tar.xz

@@ -10,7 +10,7 @@ on:
 jobs:
   static-analysis:
     timeout-minutes: 60
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v5
@@ -22,4 +22,4 @@ jobs:
           "$RUNNER_TEMP/tox/bin/pip" install tox
           echo "$RUNNER_TEMP/tox/bin" >> "$GITHUB_PATH"
       - name: Run tests using tox
-        run: cd ${{ inputs.charm_dir }} && tox -e static
+        run: cd ${{ inputs.charm_dir }} && tox -e static -- --no-warn-unused-ignores

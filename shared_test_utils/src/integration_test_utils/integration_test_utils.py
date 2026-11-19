@@ -84,11 +84,7 @@ async def deploy_orc8r_certifier(ops_test: OpsTest) -> None:
     resources = {
         f"{itest_const.CERTIFIER_CHARM_NAME}-image": itest_const.CERTIFIER_METADATA[  # noqa: E501
             "resources"
-        ][
-            f"{itest_const.CERTIFIER_CHARM_NAME}-image"
-        ][
-            "upstream-source"
-        ],
+        ][f"{itest_const.CERTIFIER_CHARM_NAME}-image"]["upstream-source"],
     }
     await ops_test.model.deploy(  # type: ignore[union-attr]
         certifier_charm,
@@ -322,11 +318,7 @@ async def deploy_orc8r_accessd(ops_test: OpsTest) -> None:
     resources = {
         f"{itest_const.ACCESSD_CHARM_NAME}-image": itest_const.ACCESSD_METADATA[  # noqa: E501
             "resources"
-        ][
-            f"{itest_const.ACCESSD_CHARM_NAME}-image"
-        ][
-            "upstream-source"
-        ],
+        ][f"{itest_const.ACCESSD_CHARM_NAME}-image"]["upstream-source"],
     }
     await ops_test.model.deploy(  # type: ignore[union-attr]
         accessd_charm,
@@ -449,11 +441,7 @@ async def deploy_orc8r_obsidian(ops_test: OpsTest) -> None:
     resources = {
         f"{itest_const.OBSIDIAN_CHARM_NAME}-image": itest_const.OBSIDIAN_METADATA[  # noqa: E501
             "resources"
-        ][
-            f"{itest_const.OBSIDIAN_CHARM_NAME}-image"
-        ][
-            "upstream-source"
-        ],
+        ][f"{itest_const.OBSIDIAN_CHARM_NAME}-image"]["upstream-source"],
     }
     await ops_test.model.deploy(  # type: ignore[union-attr]
         obsidian_charm,

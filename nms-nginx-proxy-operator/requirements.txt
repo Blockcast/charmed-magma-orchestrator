@@ -2,3 +2,4 @@ ops
 lightkube
 lightkube-models
 jinja2
+httpx

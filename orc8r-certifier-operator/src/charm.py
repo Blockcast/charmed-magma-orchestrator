@@ -12,7 +12,7 @@ import string
 from typing import Optional, Union
 
 import ops
-import psycopg2  # type: ignore[import]
+import psycopg2  # type: ignore[import-untyped]
 import yaml
 from charms.data_platform_libs.v0.data_interfaces import DatabaseRequires
 from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
@@ -21,11 +21,15 @@ from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
 from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
     CertificateRequestEvent as AdminOperatorCertificateRequestEvent,
 )
-from charms.magma_orc8r_certifier.v0.cert_certifier import CertCertifierProvides
+from charms.magma_orc8r_certifier.v0.cert_certifier import (
+    CertCertifierProvides,
+)
 from charms.magma_orc8r_certifier.v0.cert_certifier import (
     CertificateRequestEvent as CertifierCertificateRequestEvent,
 )
-from charms.magma_orc8r_certifier.v0.cert_controller import CertControllerProvides
+from charms.magma_orc8r_certifier.v0.cert_controller import (
+    CertControllerProvides,
+)
 from charms.magma_orc8r_certifier.v0.cert_controller import (
     CertificateRequestEvent as ControllerCertificateRequestEvent,
 )
@@ -71,7 +75,7 @@ from ops.model import (
     WaitingStatus,
 )
 from ops.pebble import Layer
-from pgconnstr import ConnectionString  # type: ignore[import]
+from pgconnstr import ConnectionString  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 
