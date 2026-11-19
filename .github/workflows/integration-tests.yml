@@ -38,6 +38,14 @@ jobs:
           sudo microk8s config > "$HOME/.kube/config"
           chmod 600 "$HOME/.kube/config"
           echo "KUBECONFIG=$HOME/.kube/config" >> "$GITHUB_ENV"
+      - name: Inspect Juju Kubernetes proxy credentials
+        run: |
+          namespace="controller-$CONTROLLER_NAME"
+          secret="$(sudo microk8s kubectl -n "$namespace" get serviceaccount controller-proxy -o jsonpath='{.secrets[0].name}')"
+          token_length="$(sudo microk8s kubectl -n "$namespace" get secret "$secret" -o jsonpath='{.data.token}' | base64 -d | wc -c)"
+          token_length_from_juju="$(awk -F': ' '/service-account-token:/ {print length($2); exit}' "$HOME/.local/share/juju/controllers.yaml")"
+          echo "Juju proxy service-account token bytes: $token_length_from_juju"
+          echo "Kubernetes service-account token bytes: $token_length"
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
       - name: Archive charmcraft logs
