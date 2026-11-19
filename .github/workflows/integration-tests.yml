@@ -24,7 +24,7 @@ jobs:
       - name: Set Environment Variables
         uses: tw3lveparsecs/github-actions-setvars@latest
         with:
-          varFilePath: ./.github/variables/dependencies_versions.env
+          envFilePath: ./.github/variables/dependencies_versions.env
       - name: Setup operator environment
         uses: charmed-kubernetes/actions-operator@main
         with:
