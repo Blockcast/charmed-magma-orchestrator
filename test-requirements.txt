@@ -2,7 +2,7 @@ juju==3.6.1.3
 maturin<1.16
 ops<3
 kubernetes<31
-lightkube<0.20
+lightkube<0.18
 anyio<4
 websockets>=13.0.1,<14
 click<8.2
