@@ -26,6 +26,12 @@ jobs:
           channel: ${{ env.MICROK8S_VERSION }}
           juju-channel: ${{ env.JUJU_VERSION }}
           juju-crashdump-channel: latest/stable
+      - name: Configure hosted MicroK8s credentials
+        run: |
+          mkdir -p "$HOME/.kube"
+          sudo microk8s config > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+          echo "KUBECONFIG=$HOME/.kube/config" >> "$GITHUB_ENV"
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
       - name: Archive charmcraft logs
