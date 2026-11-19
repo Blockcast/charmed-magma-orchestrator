@@ -2,6 +2,7 @@ juju==3.0.4
 kubernetes<36
 lightkube<1.0
 anyio<4
+websockets<14
 black
 coverage[toml]
 flake8
