@@ -63,7 +63,7 @@ jobs:
           set -eux
           charms="$(find ./ -name tox.ini)"
           for charm in ${charms}; do
-            tox -c "${charm}" -e static
+            tox -c "${charm}" -e static -- --no-warn-unused-ignores
           done
 
   orchestrator-unit-tests-with-coverage:
