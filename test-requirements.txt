@@ -13,7 +13,7 @@ flake8-copyright
 flake8-docstrings
 isort
 Jinja2
-mypy<1.14
+mypy<1.10
 pep8-naming
 pyproject-flake8
 pytest<8.2
