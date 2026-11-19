@@ -10,7 +10,7 @@ Jinja2
 mypy
 pep8-naming
 pyproject-flake8
-pytest
+pytest<8.2
 pytest-operator
 types-PyYAML
 types-setuptools
