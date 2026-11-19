@@ -6,6 +6,7 @@ lightkube<0.18
 anyio<4
 websockets>=13.0.1,<14
 click<8.2
+rpds-py<0.8
 black
 coverage[toml]
 flake8
