@@ -267,4 +267,4 @@ class TestOrc8rBundle:
             except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout) as e:
                 logger.error(e)
                 time.sleep(5)
-        raise TimeoutError("Could not connect to Orc8r API")\n
+        raise TimeoutError("Could not connect to Orc8r API")
