@@ -210,7 +210,7 @@ def render_overlay_file(jinja_template_path: str, destination_file_path: str) ->
     with open(jinja_template_path, "r") as template_file:
         jinja_template = jinja2.Template(template_file.read(), autoescape=True)
     with open(destination_file_path, "wt") as output_file:
-        jinja_template.stream(domain=DOMAIN).dump(output_file)
+        jinja_template.stream(domain=DOMAIN).dump(output_file)  # type: ignore[arg-type]
 
 
 class TestOrc8rBundle:
