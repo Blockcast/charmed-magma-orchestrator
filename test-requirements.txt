@@ -1,4 +1,5 @@
 juju==3.0.4
+kubernetes<36
 black
 coverage[toml]
 flake8
