@@ -46,6 +46,8 @@ jobs:
           token_length_from_juju="$(awk -F': ' '/service-account-token:/ {print length($2); exit}' "$HOME/.local/share/juju/controllers.yaml")"
           echo "Juju proxy service-account token bytes: $token_length_from_juju"
           echo "Kubernetes service-account token bytes: $token_length"
+          token="$(sudo microk8s kubectl -n "$namespace" get secret "$secret" -o jsonpath='{.data.token}' | base64 -d)"
+          sudo microk8s kubectl --token="$token" -n "$namespace" auth can-i get service/controller-service
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
       - name: Archive charmcraft logs
