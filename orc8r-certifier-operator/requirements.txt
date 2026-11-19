@@ -4,5 +4,4 @@ psycopg2-binary  # Package only used for testing, charm uses charm-binary-python
 lightkube<0.18
 lightkube-models<1.30
 cryptography<43
-jsonschema
-rpds-py<0.8
+jsonschema<4.18
