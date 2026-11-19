@@ -3,5 +3,5 @@ pgconnstr
 psycopg2-binary  # Package only used for testing, charm uses charm-binary-python-packages from charmcraft.yaml
 lightkube
 lightkube-models
-cryptography
+cryptography<43
 jsonschema
