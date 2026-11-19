@@ -4,7 +4,6 @@
 
 """Provides data for configuration of core gateway service configuration, metrics and CRUD API."""
 
-
 import logging
 import re
 from typing import Dict, Union
