@@ -6,6 +6,12 @@ on:
       charm_dir:
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      charm_dir:
+        description: Charm directory to test
+        required: true
+        type: string
 
 jobs:
   integration-tests:
