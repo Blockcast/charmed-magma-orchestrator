@@ -67,7 +67,7 @@ def render_bundle(
     with open(template) as t:
         jinja_template = jinja2.Template(t.read(), autoescape=True)
     with open(output, "wt") as o:
-        jinja_template.stream(channel=channel, local=local).dump(o)  # type: ignore[arg-type]
+        o.write(jinja_template.render(channel=channel, local=local).rstrip("\n"))
 
 
 if __name__ == "__main__":
@@ -77,4 +77,4 @@ if __name__ == "__main__":
         output=arg_output,
         local=arg_local,
         channel=arg_channel,
-    )
+    )\n
