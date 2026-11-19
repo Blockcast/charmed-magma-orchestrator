@@ -12,6 +12,7 @@ Example:
 ./render_bundle --template bundle.yaml.j2 --output bundle.yaml --channel beta
 ```
 """
+
 import argparse
 from typing import Tuple
 
