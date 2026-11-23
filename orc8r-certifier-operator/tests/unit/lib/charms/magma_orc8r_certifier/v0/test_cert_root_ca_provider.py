@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import PropertyMock, patch
 
 from ops import testing
-from test_charms.test_root_ca_provider.src.charm import (  # type: ignore[import]
+from test_charms.test_root_ca_provider.src.charm import (  # type: ignore[import-not-found]
     WhateverCharm,
 )
 
