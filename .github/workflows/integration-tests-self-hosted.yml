@@ -17,10 +17,13 @@ jobs:
       - name: Set Environment Variables
         uses: tw3lveparsecs/github-actions-setvars@latest
         with:
-          varFilePath: ./.github/variables/dependencies_versions.env
+          envFilePath: ./.github/variables/dependencies_versions.env
       - name: Setup operator environment
         run: |
           echo "# Initialize LXD"
+          if ! command -v lxd >/dev/null 2>&1; then
+            /usr/bin/sudo snap install lxd --channel=latest/stable
+          fi
           /usr/bin/sudo lxd init --auto
 
           echo "# Configure LXD"
@@ -91,4 +94,6 @@ jobs:
       - name: Clean up
         if: always()
         run: |
-          yes | juju kill-controller integration-tests-$GITHUB_RUN_ID -t0
+          if command -v juju >/dev/null 2>&1; then
+            yes | juju kill-controller integration-tests-$GITHUB_RUN_ID -t0
+          fi
