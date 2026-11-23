@@ -9,7 +9,7 @@ import logging
 import re
 import secrets
 import string
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
 import ops
 import psycopg2  # type: ignore[import-untyped]
@@ -1340,7 +1340,7 @@ class MagmaOrc8rCertifierCharm(CharmBase):
     @property
     def _domain_config(self) -> Optional[str]:
         """Returns domain config."""
-        return cast(Optional[str], self.model.config.get("domain"))
+        return self.model.config.get("domain")
 
     @property
     def _service_is_running(self) -> bool:
