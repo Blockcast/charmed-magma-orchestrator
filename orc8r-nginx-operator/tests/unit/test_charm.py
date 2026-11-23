@@ -533,9 +533,7 @@ class TestCharm(unittest.TestCase):
         patched_file_exists.return_value = True
         self.harness.update_config(key_values={"domain": "whatever.com"})
         self._create_all_relations()
-        self._container.add_layer(
-            "magma-nms-nginx-proxy", test_pebble_layer, combine=True
-        )
+        self._container.add_layer("magma-nms-nginx-proxy", test_pebble_layer, combine=True)
 
         self.harness.container_pebble_ready(container_name="magma-orc8r-nginx")
 
