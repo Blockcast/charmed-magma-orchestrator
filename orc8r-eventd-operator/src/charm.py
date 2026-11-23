@@ -159,7 +159,7 @@ class MagmaOrc8rEventdCharm(CharmBase):
             bool: Whether the elasticsearch-url config param is valid
         """
         elasticsearch_url = self.model.config.get("elasticsearch-url")
-        if not elasticsearch_url:
+        if not isinstance(elasticsearch_url, str) or not elasticsearch_url:
             return False
         if re.match("^[a-zA-Z0-9._-]+:[0-9]+$", elasticsearch_url):
             return True

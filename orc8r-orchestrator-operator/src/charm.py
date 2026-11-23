@@ -168,7 +168,7 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
             bool: True/False
         """
         elasticsearch_url = self.model.config.get("elasticsearch-url")
-        if not elasticsearch_url:
+        if not isinstance(elasticsearch_url, str) or not elasticsearch_url:
             return False
         if re.match("^[a-zA-Z0-9._-]+:[0-9]+$", elasticsearch_url):
             return True

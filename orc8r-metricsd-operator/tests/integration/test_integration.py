@@ -101,7 +101,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "prometheus-k8s",
             application_name="orc8r-prometheus",
-            channel="edge",
+            channel="1/stable",
             trust=True,
         )
 
@@ -127,7 +127,7 @@ class TestOrc8rMetricsd:
                 "generate-self-signed-certificates": True,
                 "ca-common-name": f"rootca.{DOMAIN}",
             },
-            channel="edge",
+            channel="stable",
             trust=True,
         )
 

@@ -55,7 +55,7 @@ class TestOrc8rBootstrapper:
                 "generate-self-signed-certificates": True,
                 "ca-common-name": "rootca.whatever.com",
             },
-            channel="edge",
+            channel="stable",
         )
 
     async def _deploy_orc8r_certifier(self, ops_test):

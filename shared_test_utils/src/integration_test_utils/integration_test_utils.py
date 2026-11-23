@@ -49,7 +49,7 @@ async def deploy_postgresql(
 
 async def deploy_tls_certificates_operator(
     ops_test: OpsTest,
-    channel: str = "latest/stable",
+    channel: str = "stable",
 ) -> None:
     """Deploys tls-certificates-operator charm.
 
@@ -106,7 +106,7 @@ async def deploy_orc8r_certifier(ops_test: OpsTest) -> None:
 
 async def deploy_grafana_k8s_operator(
     ops_test: OpsTest,
-    channel: str = "latest/stable",
+    channel: str = "1/stable",
 ) -> None:
     """Deploys grafana-k8 charm.
 
@@ -146,7 +146,7 @@ async def deploy_prometheus_configurer(
 
 async def deploy_prometheus_k8s_operator(
     ops_test: OpsTest,
-    channel: str = "latest/stable",
+    channel: str = "1/stable",
 ) -> None:
     """Deploys prometheus-k8s charm.
 

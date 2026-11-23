@@ -136,7 +136,7 @@ class TestOrc8rNginx:
                 "generate-self-signed-certificates": True,
                 "ca-common-name": f"rootca.{DOMAIN}",
             },
-            channel="edge",
+            channel="stable",
         )
 
     @pytest.fixture(scope="module")
