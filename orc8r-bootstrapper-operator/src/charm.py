@@ -7,7 +7,7 @@
 import logging
 from typing import Optional, Union
 
-import psycopg2  # type: ignore[import]
+import psycopg2  # type: ignore[import-untyped]
 from charms.data_platform_libs.v0.data_interfaces import DatabaseRequires
 from charms.magma_orc8r_certifier.v0.cert_root_ca import (
     CertificateAvailableEvent as RootCACertificateAvailableEvent,
@@ -27,7 +27,7 @@ from ops.charm import (
 from ops.main import main
 from ops.model import ActiveStatus, BlockedStatus, ModelError, Relation, WaitingStatus
 from ops.pebble import Layer
-from pgconnstr import ConnectionString  # type: ignore[import]
+from pgconnstr import ConnectionString  # type: ignore[import-untyped]
 
 from private_key import generate_private_key
 
