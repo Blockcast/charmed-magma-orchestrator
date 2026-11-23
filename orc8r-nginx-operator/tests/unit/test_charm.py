@@ -11,6 +11,7 @@ from lightkube.models.meta_v1 import ObjectMeta
 from lightkube.resources.core_v1 import Service
 from ops import testing
 from ops.model import ActiveStatus, BlockedStatus, WaitingStatus
+from ops.pebble import LayerDict
 
 from charm import MagmaOrc8rNginxCharm
 
@@ -519,7 +520,7 @@ class TestCharm(unittest.TestCase):
     def test_given_workload_container_without_pebble_layer_when_pebble_ready_then_nginx_service_is_reloaded(  # noqa: E501
         self, patched_file_exists, patched_restart
     ):
-        test_pebble_layer = {
+        test_pebble_layer: LayerDict = {
             "services": {
                 "magma-orc8r-nginx": {
                     "override": "replace",
@@ -532,7 +533,9 @@ class TestCharm(unittest.TestCase):
         patched_file_exists.return_value = True
         self.harness.update_config(key_values={"domain": "whatever.com"})
         self._create_all_relations()
-        self._container.add_layer("magma-nms-nginx-proxy", test_pebble_layer, combine=True)
+        self._container.add_layer(
+            "magma-nms-nginx-proxy", test_pebble_layer, combine=True
+        )
 
         self.harness.container_pebble_ready(container_name="magma-orc8r-nginx")
 
