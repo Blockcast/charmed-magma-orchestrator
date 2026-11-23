@@ -10,7 +10,7 @@ from typing import Tuple
 
 import jinja2
 import pytest
-import requests  # type: ignore[import]
+import requests
 from pytest_operator.plugin import OpsTest
 
 from render_bundle import render_bundle
