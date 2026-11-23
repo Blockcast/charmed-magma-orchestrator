@@ -38,6 +38,7 @@ jobs:
           sudo microk8s config > "$HOME/.kube/config"
           chmod 600 "$HOME/.kube/config"
           echo "KUBECONFIG=$HOME/.kube/config" >> "$GITHUB_ENV"
+          sudo -g snap_microk8s -E juju model-config default-base=ubuntu@22.04
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
       - name: Archive charmcraft logs
