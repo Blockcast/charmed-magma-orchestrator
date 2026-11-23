@@ -15,7 +15,7 @@ import string
 import time
 from typing import Optional, Union
 
-import psycopg2  # type: ignore[import]
+import psycopg2  # type: ignore[import-untyped]
 from charms.data_platform_libs.v0.data_interfaces import DatabaseRequires
 from charms.grafana_k8s.v0.grafana_auth import (
     GrafanaAuthProxyProvider,
@@ -46,7 +46,7 @@ from ops.model import (
     WaitingStatus,
 )
 from ops.pebble import ConnectionError, ExecError, Layer
-from pgconnstr import ConnectionString  # type: ignore[import]
+from pgconnstr import ConnectionString  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 

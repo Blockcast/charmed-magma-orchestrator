@@ -7,7 +7,7 @@
 import logging
 from typing import Optional, Union
 
-import psycopg2  # type: ignore[import]
+import psycopg2  # type: ignore[import-untyped]
 from charms.data_platform_libs.v0.data_interfaces import DatabaseRequires
 from charms.magma_orc8r_certifier.v0.cert_root_ca import (
     CertificateAvailableEvent as RootCACertificateAvailableEvent,
@@ -27,7 +27,7 @@ from ops.charm import (
 from ops.main import main
 from ops.model import ActiveStatus, BlockedStatus, ModelError, Relation, WaitingStatus
 from ops.pebble import Layer
-from pgconnstr import ConnectionString  # type: ignore[import]
+from pgconnstr import ConnectionString  # type: ignore[import-untyped]
 
 from private_key import generate_private_key
 
@@ -79,6 +79,8 @@ class MagmaOrc8rBootstrapperCharm(CharmBase):
     @property
     def _pebble_layer(self) -> Layer:
         """Returns pebble layer for the charm."""
+        db_connection_string = self._get_db_connection_string
+        assert db_connection_string is not None
         return Layer(
             {
                 "summary": f"{self._service_name} pebble layer",
@@ -94,11 +96,11 @@ class MagmaOrc8rBootstrapperCharm(CharmBase):
                             "SERVICE_HOSTNAME": "magma-orc8r-bootstrapper",
                             "SERVICE_REGISTRY_MODE": "k8s",
                             "SERVICE_REGISTRY_NAMESPACE": self._namespace,
-                            "DATABASE_SOURCE": f"dbname={self.DB_NAME} "  # type: ignore[union-attr] # noqa: E501
-                            f"user={self._get_db_connection_string.user} "
-                            f"password={self._get_db_connection_string.password} "
-                            f"host={self._get_db_connection_string.host} "
-                            f"port={self._get_db_connection_string.port} "
+                            "DATABASE_SOURCE": f"dbname={self.DB_NAME} "
+                            f"user={db_connection_string.user} "
+                            f"password={db_connection_string.password} "
+                            f"host={db_connection_string.host} "
+                            f"port={db_connection_string.port} "
                             f"sslmode=disable",
                             "SQL_DRIVER": "postgres",
                             "SQL_DIALECT": "psql",

@@ -9,10 +9,10 @@ import logging
 import re
 import secrets
 import string
-from typing import Optional, Union
+from typing import Optional, Union, cast
 
 import ops
-import psycopg2  # type: ignore[import]
+import psycopg2  # type: ignore[import-untyped]
 import yaml
 from charms.data_platform_libs.v0.data_interfaces import DatabaseRequires
 from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
@@ -21,11 +21,15 @@ from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
 from charms.magma_orc8r_certifier.v0.cert_admin_operator import (
     CertificateRequestEvent as AdminOperatorCertificateRequestEvent,
 )
-from charms.magma_orc8r_certifier.v0.cert_certifier import CertCertifierProvides
+from charms.magma_orc8r_certifier.v0.cert_certifier import (
+    CertCertifierProvides,
+)
 from charms.magma_orc8r_certifier.v0.cert_certifier import (
     CertificateRequestEvent as CertifierCertificateRequestEvent,
 )
-from charms.magma_orc8r_certifier.v0.cert_controller import CertControllerProvides
+from charms.magma_orc8r_certifier.v0.cert_controller import (
+    CertControllerProvides,
+)
 from charms.magma_orc8r_certifier.v0.cert_controller import (
     CertificateRequestEvent as ControllerCertificateRequestEvent,
 )
@@ -71,7 +75,7 @@ from ops.model import (
     WaitingStatus,
 )
 from ops.pebble import Layer
-from pgconnstr import ConnectionString  # type: ignore[import]
+from pgconnstr import ConnectionString  # type: ignore[import-untyped]
 
 logger = logging.getLogger(__name__)
 
@@ -1299,6 +1303,8 @@ class MagmaOrc8rCertifierCharm(CharmBase):
         Returns:
             Layer: Pebble layer
         """
+        db_connection_string = self._get_db_connection_string
+        assert db_connection_string is not None
         return Layer(
             {
                 "summary": f"{self._service_name} pebble layer",
@@ -1315,10 +1321,10 @@ class MagmaOrc8rCertifierCharm(CharmBase):
                         "-run_echo_server=true "
                         "-v=0",
                         "environment": {
-                            "DATABASE_SOURCE": f"dbname={self.DB_NAME} "  # type: ignore[union-attr]  # noqa: E501
-                            f"user={self._get_db_connection_string.user} "
-                            f"password={self._get_db_connection_string.password} "
-                            f"host={self._get_db_connection_string.host} "
+                            "DATABASE_SOURCE": f"dbname={self.DB_NAME} "
+                            f"user={db_connection_string.user} "
+                            f"password={db_connection_string.password} "
+                            f"host={db_connection_string.host} "
                             f"sslmode=disable",
                             "SQL_DRIVER": "postgres",
                             "SQL_DIALECT": "psql",
@@ -1334,7 +1340,7 @@ class MagmaOrc8rCertifierCharm(CharmBase):
     @property
     def _domain_config(self) -> Optional[str]:
         """Returns domain config."""
-        return self.model.config.get("domain")
+        return cast(Optional[str], self.model.config.get("domain"))
 
     @property
     def _service_is_running(self) -> bool:

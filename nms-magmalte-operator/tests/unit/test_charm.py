@@ -6,7 +6,7 @@ from unittest.mock import Mock, PropertyMock, call, patch
 
 from ops import testing
 from ops.model import ActiveStatus, BlockedStatus
-from ops.pebble import ExecError
+from ops.pebble import ExecError, Layer, LayerDict
 
 from charm import MagmaNmsMagmalteCharm, ServiceNotRunningError
 
@@ -453,7 +453,7 @@ class TestCharm(unittest.TestCase):
             relation_name="cert-admin-operator", remote_app="magma-orc8r-certifier"
         )
 
-        test_pebble_layer = {
+        test_pebble_layer: LayerDict = {
             "summary": "magma-nms-magmalte pebble layer",
             "services": {
                 service_name: {
@@ -477,13 +477,13 @@ class TestCharm(unittest.TestCase):
                         "MAPBOX_ACCESS_TOKEN": "",
                         "MYSQL_DIALECT": "postgres",
                         "PUPPETEER_SKIP_DOWNLOAD": "true",
-                        "USER_GRAFANA_ADDRESS": self.harness.charm._grafana_url,
+                        "USER_GRAFANA_ADDRESS": self.harness.charm._grafana_url or "",
                     },
                 }
             },
         }
         self.harness.model.unit.get_container("magma-nms-magmalte").add_layer(
-            "magma-nms-magmalte", test_pebble_layer, combine=True
+            "magma-nms-magmalte", Layer(test_pebble_layer), combine=True
         )
         self.harness.container_pebble_ready(container_name=service_name)
         patch_container_restart.assert_called_once()
