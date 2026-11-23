@@ -13,6 +13,7 @@ from lightkube.models.core_v1 import (
 from lightkube.models.meta_v1 import ObjectMeta
 from ops import testing
 from ops.model import ActiveStatus, BlockedStatus, WaitingStatus
+from ops.pebble import Layer, LayerDict
 
 from charm import MagmaOrc8rOrchestratorCharm
 
@@ -548,7 +549,7 @@ class TestCharm(unittest.TestCase):
         self.harness.add_relation(
             relation_name="cert-admin-operator", remote_app="orc8r-certifier"
         )
-        test_pebble_plan = {
+        test_pebble_plan: LayerDict = {
             "summary": f"{service_name} pebble layer",
             "services": {
                 service_name: {
@@ -569,7 +570,7 @@ class TestCharm(unittest.TestCase):
             },
         }
         self.harness.model.unit.get_container("magma-orc8r-orchestrator").add_layer(
-            "magma-orc8r-orchestrator", test_pebble_plan, combine=True
+            "magma-orc8r-orchestrator", Layer(test_pebble_plan), combine=True
         )
         self.harness.container_pebble_ready(container_name=service_name)
 

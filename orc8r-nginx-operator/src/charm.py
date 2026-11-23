@@ -11,10 +11,14 @@ from typing import List, Optional, Union
 
 from charms.magma_orc8r_certifier.v0.cert_certifier import (
     CertCertifierRequires,
+)
+from charms.magma_orc8r_certifier.v0.cert_certifier import (
     CertificateAvailableEvent as CertifierCertificateAvailableEvent,
 )
 from charms.magma_orc8r_certifier.v0.cert_controller import (
     CertControllerRequires,
+)
+from charms.magma_orc8r_certifier.v0.cert_controller import (
     CertificateAvailableEvent as ControllerCertificateAvailableEvent,
 )
 from charms.magma_orc8r_certifier.v0.cert_root_ca import (
