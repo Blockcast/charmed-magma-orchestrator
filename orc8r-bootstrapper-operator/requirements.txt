@@ -1,6 +1,6 @@
 ops
 lightkube
 lightkube-models
-cryptography
+cryptography<43  # jammy cargo cannot parse the v4 Cargo.lock in newer sdists (BLO-56666)
 pgconnstr
 psycopg2-binary  # Package only used for testing, charm uses charm-binary-python-packages from charmcraft.yaml
