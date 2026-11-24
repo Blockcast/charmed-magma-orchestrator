@@ -1,5 +1,6 @@
 Jinja2
 jsonschema
 ops
+httpx
 lightkube
 lightkube-models
