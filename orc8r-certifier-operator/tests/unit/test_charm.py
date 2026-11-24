@@ -720,6 +720,32 @@ class TestCharm(unittest.TestCase):
         )
 
     @patch("psycopg2.connect", new=Mock())
+    def test_given_cant_connect_to_container_when_database_created_then_status_is_waiting(
+        self,
+    ):
+        # BLO-59011: database_created can land before the workload's pebble socket exists.
+        self.harness.set_can_connect(container="magma-orc8r-certifier", val=False)
+        self.harness.update_config(key_values={"domain": "whatever.com"})
+        self.harness.add_relation(
+            relation_name="certificates", remote_app="tls-certificates-provider"
+        )
+        db_relation_id = self.harness.add_relation(
+            relation_name="database", remote_app="postgresql-k8s"
+        )
+        self.harness.add_relation_unit(
+            relation_id=db_relation_id, remote_unit_name="postgresql-k8s/0"
+        )
+        self.harness.update_relation_data(
+            relation_id=db_relation_id,
+            app_or_unit="postgresql-k8s",
+            key_values=self.DATABASE_DATABAG,
+        )
+
+        assert self.harness.charm.unit.status == WaitingStatus(
+            "Waiting for container to be ready"
+        )
+
+    @patch("psycopg2.connect", new=Mock())
     @patch("ops.model.Container.exists")
     def test_given_relations_are_created_and_certificates_are_stored_when_pebble_ready_then_plan_is_filled_with_magma_orc8r_certifier_service_content(  # noqa: E501
         self, patch_file_exists

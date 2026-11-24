@@ -277,6 +277,10 @@ class MagmaOrc8rCertifierCharm(CharmBase):
             self.unit.status = WaitingStatus("Waiting for database relation to be ready")
             event.defer()
             return
+        if not self._container.can_connect():
+            self.unit.status = WaitingStatus("Waiting for container to be ready")
+            event.defer()
+            return
         if not self._root_private_key_is_pushed:
             self.unit.status = WaitingStatus("Waiting for root private key to be pushed")
             event.defer()
