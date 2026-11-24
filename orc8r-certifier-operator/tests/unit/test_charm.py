@@ -741,9 +741,7 @@ class TestCharm(unittest.TestCase):
             key_values=self.DATABASE_DATABAG,
         )
 
-        assert self.harness.charm.unit.status == WaitingStatus(
-            "Waiting for container to be ready"
-        )
+        assert self.harness.charm.unit.status == WaitingStatus("Waiting for container to be ready")
 
     @patch("psycopg2.connect", new=Mock())
     @patch("ops.model.Container.exists")
