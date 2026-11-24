@@ -170,6 +170,10 @@ class MagmaOrc8rNginxCharm(CharmBase):
         if not self._relations_ready:
             event.defer()
             return
+        if not self._container.can_connect():
+            self.unit.status = WaitingStatus("Waiting for container to be ready")
+            event.defer()
+            return
         if not self._certs_are_stored:
             self.unit.status = WaitingStatus("Waiting for certificates to be available.")
             event.defer()
