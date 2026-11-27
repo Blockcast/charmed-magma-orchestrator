@@ -261,6 +261,10 @@ class MagmaOrc8rCertifierCharm(CharmBase):
         Returns:
             None
         """
+        if not self._container.can_connect():
+            self.unit.status = WaitingStatus("Waiting for container to be ready")
+            event.defer()
+            return
         if not self._domain_config_is_valid:
             self.unit.status = BlockedStatus("Config 'domain' is not valid")
             event.defer()
