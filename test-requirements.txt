@@ -6,6 +6,7 @@ lightkube<0.18
 anyio<4
 websockets>=13.0.1,<14
 click<8.2
+packaging<26
 black
 coverage[toml]
 flake8

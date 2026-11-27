@@ -78,7 +78,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "alertmanager-k8s",
             application_name="orc8r-alertmanager",
-            channel="edge",
+            channel="1/stable",
             trust=True,
         )
 
@@ -87,7 +87,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "alertmanager-configurer-k8s",
             application_name="orc8r-alertmanager-configurer",
-            channel="edge",
+            channel="stable",
             trust=True,
             series="focal",
         )
@@ -101,7 +101,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "prometheus-k8s",
             application_name="orc8r-prometheus",
-            channel="edge",
+            channel="1/stable",
             trust=True,
         )
 
@@ -110,7 +110,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "prometheus-configurer-k8s",
             application_name="orc8r-prometheus-configurer",
-            channel="edge",
+            channel="stable",
             trust=True,
         )
         await ops_test.model.add_relation(
@@ -127,7 +127,7 @@ class TestOrc8rMetricsd:
                 "generate-self-signed-certificates": True,
                 "ca-common-name": f"rootca.{DOMAIN}",
             },
-            channel="edge",
+            channel="stable",
             trust=True,
         )
 
@@ -183,7 +183,7 @@ class TestOrc8rMetricsd:
         await ops_test.model.deploy(
             "prometheus-edge-hub",
             application_name="orc8r-prometheus-cache",
-            channel="edge",
+            channel="stable",
             trust=True,
         )
 

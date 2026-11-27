@@ -10,7 +10,7 @@ from typing import Tuple
 
 import jinja2
 import pytest
-import requests  # type: ignore[import]
+import requests
 from pytest_operator.plugin import OpsTest
 
 from render_bundle import render_bundle
@@ -177,7 +177,7 @@ async def deploy_bundle(ops_test: OpsTest, bundle_path: str, overlay_file_path: 
         status="active",
         timeout=1800,
         idle_period=10,
-        raise_on_error=False,
+        raise_on_error=True,
     )
 
 
@@ -210,7 +210,7 @@ def render_overlay_file(jinja_template_path: str, destination_file_path: str) ->
     with open(jinja_template_path, "r") as template_file:
         jinja_template = jinja2.Template(template_file.read(), autoescape=True)
     with open(destination_file_path, "wt") as output_file:
-        jinja_template.stream(domain=DOMAIN).dump(output_file)
+        output_file.write(jinja_template.render(domain=DOMAIN).rstrip("\n"))
 
 
 class TestOrc8rBundle:

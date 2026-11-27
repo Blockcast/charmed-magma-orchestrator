@@ -9,7 +9,7 @@ import logging
 import re
 import secrets
 import string
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
 import ops
 import psycopg2  # type: ignore[import-untyped]
@@ -261,6 +261,10 @@ class MagmaOrc8rCertifierCharm(CharmBase):
         Returns:
             None
         """
+        if not self._container.can_connect():
+            self.unit.status = WaitingStatus("Waiting for container to be ready")
+            event.defer()
+            return
         if not self._domain_config_is_valid:
             self.unit.status = BlockedStatus("Config 'domain' is not valid")
             event.defer()
@@ -1340,7 +1344,7 @@ class MagmaOrc8rCertifierCharm(CharmBase):
     @property
     def _domain_config(self) -> Optional[str]:
         """Returns domain config."""
-        return cast(Optional[str], self.model.config.get("domain"))
+        return self.model.config.get("domain")
 
     @property
     def _service_is_running(self) -> bool:

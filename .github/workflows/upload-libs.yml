@@ -13,7 +13,7 @@ on:
 jobs:
   libs-charmhub-upload:
     timeout-minutes: 60
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     name: Upload ${{ inputs.charm }} libs to charmhub
     steps:
       - uses: actions/checkout@v3

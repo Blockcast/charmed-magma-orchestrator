@@ -242,15 +242,11 @@ class MagmaOrc8rMetricsdCharm(CharmBase):
         prometheus_configurer_relation = self.model.get_relation("prometheus-configurer-k8s")
         prometheus_configurer_app = prometheus_configurer_relation.app  # type: ignore[union-attr]
         prometheus_configurer_service_name = prometheus_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
-            prometheus_configurer_app  # type: ignore[index]
-        ][
-            "service_name"
-        ]
+            prometheus_configurer_app
+        ]["service_name"]
         prometheus_configurer_port = prometheus_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
-            prometheus_configurer_app  # type: ignore[index]
-        ][
-            "port"
-        ]
+            prometheus_configurer_app
+        ]["port"]
         return f"http://{prometheus_configurer_service_name}:{prometheus_configurer_port}"
 
     @property
@@ -274,15 +270,11 @@ class MagmaOrc8rMetricsdCharm(CharmBase):
         alertmanager_configurer_relation = self.model.get_relation("alertmanager-configurer-k8s")
         alertmanager_configurer_app = alertmanager_configurer_relation.app  # type: ignore[union-attr]  # noqa: E501
         alertmanager_configurer_service_name = alertmanager_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
-            alertmanager_configurer_app  # type: ignore[index]
-        ][
-            "service_name"
-        ]
+            alertmanager_configurer_app
+        ]["service_name"]
         alertmanager_configurer_port = alertmanager_configurer_relation.data[  # type: ignore[union-attr]  # noqa: E501
-            alertmanager_configurer_app  # type: ignore[index]
-        ][
-            "port"
-        ]
+            alertmanager_configurer_app
+        ]["port"]
         return f"http://{alertmanager_configurer_service_name}:{alertmanager_configurer_port}"
 
     @property

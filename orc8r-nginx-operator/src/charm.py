@@ -240,8 +240,8 @@ class MagmaOrc8rNginxCharm(CharmBase):
             event.defer()
             return
         self.orchestrator_provider.set_orchestrator_information(
-            root_ca_certificate=rootca_cert.read(),  # type: ignore[arg-type]
-            certifier_pem_certificate=certifier_pem.read(),  # type: ignore[arg-type]
+            root_ca_certificate=rootca_cert.read(),
+            certifier_pem_certificate=certifier_pem.read(),
             orchestrator_address=f"controller.{self._domain_config}",
             orchestrator_port=443,
             bootstrapper_address=f"bootstrapper-controller.{self._domain_config}",
@@ -254,7 +254,9 @@ class MagmaOrc8rNginxCharm(CharmBase):
         """Remove additional magma-orc8r-nginx services."""
         client = Client()
         for service in self._magma_orc8r_nginx_additional_services:
-            client.delete(Service, name=service.metadata.name, namespace=self._namespace)
+            metadata = service.metadata
+            if metadata is not None and metadata.name is not None:
+                client.delete(Service, name=metadata.name, namespace=self._namespace)
 
     def _on_certifier_certificate_available(
         self, event: CertifierCertificateAvailableEvent
@@ -359,8 +361,11 @@ class MagmaOrc8rNginxCharm(CharmBase):
         client = Client()
         logger.info("Creating additional magma-orc8r-nginx services")
         for service in self._magma_orc8r_nginx_additional_services:
-            if not self._orc8r_nginx_service_created(service.metadata.name):
-                logger.info(f"Creating {service.metadata.name} service")
+            metadata = service.metadata
+            if metadata is None or metadata.name is None:
+                continue
+            if not self._orc8r_nginx_service_created(metadata.name):
+                logger.info(f"Creating {metadata.name} service")
                 client.create(service)
 
     def _configure_pebble_layer(
@@ -520,7 +525,7 @@ class MagmaOrc8rNginxCharm(CharmBase):
             bool: Whether the domain is a valid one.
         """
         domain = self.model.config.get("domain")
-        if not domain:
+        if not isinstance(domain, str) or not domain:
             return False
         pattern = re.compile(
             r"^(?:[a-zA-Z0-9]"  # First character of the domain
@@ -652,7 +657,8 @@ class MagmaOrc8rNginxCharm(CharmBase):
         Returns:
             str: Domain config
         """
-        return self.model.config.get("domain")
+        domain = self.model.config.get("domain")
+        return domain if isinstance(domain, str) else None
 
     @property
     def _namespace(self) -> str:

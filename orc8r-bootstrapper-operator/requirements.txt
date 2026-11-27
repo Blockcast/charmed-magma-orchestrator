@@ -1,6 +1,6 @@
 ops
-lightkube
-lightkube-models
-cryptography
+lightkube<0.18  # 1.x sdist builds via uv_build->maturin, needs edition2024 cargo (BLO-56666)
+lightkube-models<1.30
+cryptography<43  # jammy cargo cannot parse the v4 Cargo.lock in newer sdists (BLO-56666)
 pgconnstr
 psycopg2-binary  # Package only used for testing, charm uses charm-binary-python-packages from charmcraft.yaml

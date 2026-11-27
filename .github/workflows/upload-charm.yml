@@ -9,7 +9,7 @@ on:
       runner-version:
         required: false
         type: string
-        default: "arc-magma"
+        default: "ubuntu-latest"
 
 jobs:
   charmhub-upload:

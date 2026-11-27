@@ -6,19 +6,25 @@ on:
       charm_dir:
         required: true
         type: string
+  workflow_dispatch:
+    inputs:
+      charm_dir:
+        description: Charm directory to test
+        required: true
+        type: string
 
 jobs:
   integration-tests:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set Environment Variables
         uses: tw3lveparsecs/github-actions-setvars@latest
         with:
-          varFilePath: ./.github/variables/dependencies_versions.env
+          envFilePath: ./.github/variables/dependencies_versions.env
       - name: Setup operator environment
         uses: charmed-kubernetes/actions-operator@main
         with:
@@ -26,8 +32,23 @@ jobs:
           channel: ${{ env.MICROK8S_VERSION }}
           juju-channel: ${{ env.JUJU_VERSION }}
           juju-crashdump-channel: latest/stable
+      - name: Configure hosted MicroK8s credentials
+        run: |
+          mkdir -p "$HOME/.kube"
+          sudo microk8s config > "$HOME/.kube/config"
+          chmod 600 "$HOME/.kube/config"
+          echo "KUBECONFIG=$HOME/.kube/config" >> "$GITHUB_ENV"
+          sudo -g snap_microk8s -E juju model-config \
+            default-base=ubuntu@22.04 \
+            automatically-retry-hooks=true
       - name: Run integration tests
         run: cd ${{ inputs.charm_dir }} && tox -e integration
+      - name: Dump Juju state on failure
+        if: failure()
+        run: |
+          set +e
+          sudo -g snap_microk8s -E juju status --relations --color=false
+          timeout 30s sudo -g snap_microk8s -E juju debug-log --replay --no-tail --limit 200
       - name: Archive charmcraft logs
         if: failure()
         uses: actions/upload-artifact@v4

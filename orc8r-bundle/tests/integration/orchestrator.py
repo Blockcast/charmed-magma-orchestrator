@@ -6,8 +6,8 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import Iterator
 
-import requests  # type: ignore[import]
-import urllib3  # type: ignore[import]
+import requests
+import urllib3
 from cryptography.hazmat.primitives.serialization import (
     Encoding,
     NoEncryption,

@@ -4,7 +4,6 @@
 
 """Provides data for configuration of core gateway service configuration, metrics and CRUD API."""
 
-
 import logging
 import re
 from typing import Dict, Union
@@ -169,7 +168,7 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
             bool: True/False
         """
         elasticsearch_url = self.model.config.get("elasticsearch-url")
-        if not elasticsearch_url:
+        if not isinstance(elasticsearch_url, str) or not elasticsearch_url:
             return False
         if re.match("^[a-zA-Z0-9._-]+:[0-9]+$", elasticsearch_url):
             return True
@@ -301,7 +300,7 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
             None
         """
         load_balancer_services = self._get_load_balancer_services()
-        event.set_results(load_balancer_services)  # type: ignore[arg-type]
+        event.set_results(load_balancer_services)
 
     def _get_load_balancer_services(self) -> Dict[str, str]:
         """Returns all Load balancer service addresses.
@@ -313,6 +312,10 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
         client = Client()
         service_list = client.list(res=Service, namespace=self._namespace)
         for service in service_list:
+            if service.metadata is None or service.metadata.name is None:
+                continue
+            if service.status is None or service.status.loadBalancer is None:
+                continue
             service_name = service.metadata.name
             ingresses = service.status.loadBalancer.ingress
             if ingresses:
@@ -320,7 +323,7 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
                 hostname = ingresses[0].hostname
                 if hostname:
                     service_dict[service_name] = hostname
-                else:
+                elif ip:
                     service_dict[service_name] = ip
         return service_dict
 
@@ -538,7 +541,8 @@ class MagmaOrc8rOrchestratorCharm(CharmBase):
         Returns:
             tuple: Elasticsearch url and port.
         """
-        if elasticsearch_url := self.model.config.get("elasticsearch-url"):
+        elasticsearch_url = self.model.config.get("elasticsearch-url")
+        if isinstance(elasticsearch_url, str) and elasticsearch_url:
             elasticsearch_url_split = elasticsearch_url.split(":")
             return elasticsearch_url_split[0], elasticsearch_url_split[1]
         else:

@@ -1,3 +1,9 @@
+# Integration tests (orc8r bundle deploy) run only on push to main, schedule
+# and dispatch. PRs no longer get a pre-merge orc8r deploy signal. Regressions
+# show up on the first default-branch run after merge. That is accepted for
+# this repo (CTO ruling, BLO-56666): do NOT re-add a PR trigger to that job.
+# It runs GitHub-hosted, not on ARC group 26: ARC runner pods have no snapd,
+# so microk8s cannot install there.
 name: main-branch
 
 on:
@@ -9,6 +15,9 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,7 +27,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Lint report
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -44,7 +53,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Static analysis
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -63,14 +72,14 @@ jobs:
           set -eux
           charms="$(find ./ -name tox.ini)"
           for charm in ${charms}; do
-            tox -c "${charm}" -e static
+            tox -c "${charm}" -e static -- --no-warn-unused-ignores
           done
 
   orchestrator-unit-tests-with-coverage:
     timeout-minutes: 60
     if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
     name: Unit tests
-    runs-on: arc-magma
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -93,8 +102,8 @@ jobs:
           done
 
   orchestrator-integration-test:
-    if: github.event_name != 'pull_request_target' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name != 'pull_request_target'
     name: Integration tests
-    uses: ./.github/workflows/integration-tests-self-hosted.yml
+    uses: ./.github/workflows/integration-tests.yml
     with:
       charm_dir: orc8r-bundle

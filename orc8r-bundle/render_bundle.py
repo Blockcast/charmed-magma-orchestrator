@@ -12,6 +12,7 @@ Example:
 ./render_bundle --template bundle.yaml.j2 --output bundle.yaml --channel beta
 ```
 """
+
 import argparse
 from typing import Tuple
 
@@ -67,7 +68,7 @@ def render_bundle(
     with open(template) as t:
         jinja_template = jinja2.Template(t.read(), autoescape=True)
     with open(output, "wt") as o:
-        jinja_template.stream(channel=channel, local=local).dump(o)
+        o.write(jinja_template.render(channel=channel, local=local).rstrip("\n"))
 
 
 if __name__ == "__main__":
